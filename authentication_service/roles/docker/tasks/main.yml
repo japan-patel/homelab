@@ -1,0 +1,91 @@
+# Install docker. Steps are from official docker website, just converted to ansible tasks
+#- name: Uninstall all conflicting packages and do apt update
+#  ansible.builtin.apt:
+#    name:
+#    - docker.io
+#    - docker-compose
+#    - docker-compose-v2
+#    - docker-doc
+#    - podman-docker
+#    - containerd
+#    - runc
+#    state: absent
+#    purge: yes
+#    autoremove: yes
+#    update_cache: true
+#  become: true
+#  become_method: sudo
+
+#- name: install ca-certificates and curl
+#  ansible.builtin.apt:
+#    name:
+#    - ca-certificates
+#    - curl
+#    state: present
+#  become: true
+#  become_method: sudo
+
+#- name: Create directory for apt keyrings
+#  ansible.builtin.file:
+#    path: /etc/apt/keyrings
+#    state: directory
+#    mode: '755'
+#  become: true
+#  become_method: sudo
+
+#- name: Download docker gpg keyrings
+#  ansible.builtin.get_url:
+#    url: https://download.docker.com/linux/ubuntu/gpg
+#    dest: /etc/apt/keyrings/docker.asc
+#    mode: '644'
+#  become: true
+#  become_method: sudo
+
+#- name: Add apt repo
+#  ansible.builtin.deb822_repository:
+#    name: docker
+#    types: deb
+#    uris: https://download.docker.com/linux/ubuntu
+#    suites: "{ { ansible_distribution_release } }"
+#    components: stable
+#    signed_by: /etc/apt/keyrings/docker.asc
+#  become: true
+#  become_method: sudo
+
+#- name: update apt update_cache, install docker and required pkg
+#  ansible.builtin.apt:
+#    update_cache: true
+#    name:
+#    - docker-ce
+#    - docker-ce-cli
+#    - containerd.io
+#    - docker-buildx-plugin
+#    - docker-compose-plugin
+#    - python3-pip
+#    - python3-docker
+#    - python3-jsondiff
+#    state: present
+#  become: true
+#  become_method: sudo
+
+#- name: run docker/make sure it's running
+#  ansible.builtin.systemd:
+#    name: docker
+#    state: started
+#    enabled: true
+#  become: true
+#  become_method: sudo
+
+# <-------------docker install complete----------->
+
+#docker swarm init and create network for authentication
+- name: docker swarm init
+  community.docker.docker_swarm:
+    state: present
+
+- name: create docker network auth
+  community.docker.docker_network:
+    name: auth
+    driver: overlay
+    attachable: true
+    state: present

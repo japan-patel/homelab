@@ -1,0 +1,7 @@
+- name: setup autelia+lldap+postgres+caddy
+  hosts: auth
+  vars_files:
+  - ../../inventory/group_vars/authentication/vault.yml
+  roles:
+  - docker
+  - auth_db

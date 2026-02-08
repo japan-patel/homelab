@@ -1,0 +1,5 @@
+- name: ping play
+  hosts: proxmox
+  tasks:
+   - name: ping all hosts
+     ansible.builtin.ping:

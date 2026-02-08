@@ -1,0 +1,37 @@
+- name: Create postgres secrets
+  community.docker.docker_secret:
+    name: "{{ item.key}}"
+    data: "{{ item.value }}"
+    state: present
+  loop: "{{ postgres | dict2items }}"
+
+- name: Create folder for backup for postgres db
+  ansible.builtin.file:
+    path: "/home/homelab/postgres/{{ item }}"
+    recurse: true
+    state: directory
+    owner: homelab
+    mode: '755'
+  loop:
+  - data
+  - init
+
+- name: copy docker compose file to auth server/VM
+  ansible.builtin.copy:
+    src: /home/homelab/ansible_main/roles/auth_db/files/docker-compose.yml
+    dest: /home/homelab/postgres/
+    owner: homelab
+    mode: '655'
+
+- name: copy sql .sh and .sql files to auth server/VM
+  ansible.builtin.copy:
+    src: "/home/homelab/ansible_main/roles/auth_db/files/00-entrypoint.sh"
+    dest: /home/homelab/postgres/init/
+    owner: homelab
+    mode: '755'
+
+- name: Run docker swarm stack of postgres
+  community.docker.docker_stack:
+    name: auth_db
+    state: present
+    compose: /home/homelab/postgres/docker-compose.yml
