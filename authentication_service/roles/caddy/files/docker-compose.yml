@@ -1,0 +1,15 @@
+services:
+  caddy:
+    image: caddy:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - auth
+    volumes:
+      - ./caddy_config:/etc/caddy
+      - ./caddy_data:/data
+
+networks:
+  auth:
+    external: true

@@ -1,0 +1,22 @@
+- name: Create LLDAP secrets
+  community.docker.docker_secret:
+    name: "{{ item.key}}"
+    data: "{{ item.value }}"
+    state: present
+  loop: "{{ lldap | dict2items }}"
+
+- name: copy data folder and docker compose for lldap
+  ansible.builtin.copy:
+    src: "/home/homelab/homelab/authentication_service/roles/lldap/files/{{ item }}"
+    dest: /home/homelab/lldap/
+    owner: homelab
+    mode: '655'
+  loop:
+  - docker-compose.yml
+  - data
+
+- name: deploy lldap stack
+  community.docker.docker_stack:
+    name: lldap
+    state: present
+    compose: /home/homelab/lldap/docker-compose.yml

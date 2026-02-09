@@ -1,0 +1,22 @@
+- name: generate docker secrets for authelia
+  community.docker.docker_secret:
+    name: "{{ item.key}}"
+    data: "{{ item.value }}"
+    state: present
+  loop: "{{ authelia | dict2items }}"
+
+- name: copy files to auth server/VM
+  ansible.builtin.copy:
+    src: "/home/homelab/homelab/authentication_service/roles/authelia/files/{{ item }}"
+    dest: /home/homelab/authelia/
+    owner: homelab
+    mode: '655'
+  loop:
+  - docker-compose.yml
+  - config
+
+- name: Run docker swarm stack of authelia
+  community.docker.docker_stack:
+    name: authelia
+    state: present
+    compose: /home/homelab/authelia/docker-compose.yml

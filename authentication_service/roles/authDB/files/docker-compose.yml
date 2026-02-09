@@ -1,5 +1,5 @@
 services:
-  auth_db:
+  authDB:
     image: postgres:alpine
     volumes:
       - /home/homelab/postgres/data:/var/lib/postgresql/18/docker
@@ -15,6 +15,7 @@ services:
 
 networks:
   auth:
+    external: true
 
 secrets:
   authelia_db_password:

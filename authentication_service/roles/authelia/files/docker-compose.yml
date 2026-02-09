@@ -1,0 +1,31 @@
+services:
+  authelia:
+    image: authelia/authelia:latest
+    secrets:
+      - identity_validation_jwt_secret
+      - storage_encrypting_key
+      - authelia_ldap_password
+      - authelia_db_password  
+    environment:
+       AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE: '/run/secrets/identity_validation_jwt_secret' 
+       AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE: '/run/secrets/storage_encrypting_key'
+       AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD_FILE: '/run/secrets/authelia_ldap_password'
+       AUTHELIA_STORAGE_POSTGRES_PASSWORD_FILE: '/run/secrets/authelia_db_password'
+    volumes:
+      - /home/homelab/authelia/config:/config
+    networks: 
+      - auth
+  
+secrets:
+  identity_validation_jwt_secret:
+    external: true
+  storage_encrypting_key:
+    external: true
+  authelia_ldap_password:
+    external: true
+  authelia_db_password:
+    external: true
+
+networks:
+  auth:
+    external: true
