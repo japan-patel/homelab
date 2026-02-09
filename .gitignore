@@ -5,4 +5,4 @@
 ansible.log
 
 ##Ignore hosts and vault file
-./authentication/inventory/*
+./authentication_service/inventory/*
