@@ -34,7 +34,6 @@ authentication_backend:
     implementation: 'lldap'
     base_dn: 'dc=home,dc=com'
     user: 'uid=authelia_admin,ou=people,dc=home,dc=com'
-    #password: 'authelia_admin'
     additional_users_dn: 'ou=people'
     users_filter: '(&(|({username_attribute}={input})({mail_attribute}={input}))(objectClass=person))'
     additional_groups_dn: 'ou=groups'
@@ -54,7 +53,6 @@ storage:
     database: 'authelia'
     schema: 'authelia'
     username: 'authelia'
-    #password: 'authelia'
     timeout: '10 seconds'
 
 session:

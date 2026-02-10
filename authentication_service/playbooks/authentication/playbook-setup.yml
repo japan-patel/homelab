@@ -5,7 +5,7 @@
   - ../../inventory/group_vars/authentication/vault.yml
   roles:
   #- docker
-  #- authDB
+  - authDB
   - lldap
-  #- authelia
-  #- caddy
+  - authelia
+  - caddy
