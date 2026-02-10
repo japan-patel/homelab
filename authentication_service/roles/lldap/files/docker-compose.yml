@@ -1,13 +1,6 @@
 services:
   lldap:
     image: lldap/lldap:stable
-    entrypoint: 
-      - /bin/sh
-      - -c
-      - |
-        export LLDAP_DATABASE_URL="$$(cat /run/secrets/ldap_database_url)" &&   
-        exec /app/lldap run
-   # needed $ to escape or else it was erroring by docker
     secrets:
       - jwt_secret
       - ldap_user_dn
@@ -20,7 +13,8 @@ services:
       - LLDAP_LDAP_USER_DN_FILE=/run/secrets/ldap_user_dn
       - LLDAP_LDAP_USER_EMAIL_FILE=/run/secrets/ldap_user_email
       - LLDAP_LDAP_USER_PASS_FILE=/run/secrets/ldap_user_pass
-      - LDAP_KEY_SEED_FILE=/run/secrets/ldap_key_seed
+      - LLDAP_KEY_SEED_FILE=/run/secrets/ldap_key_seed
+      - LLDAP_DATABASE_URL_FILE=/run/secrets/ldap_database_url
     volumes:
       - /home/homelab/lldap/data:/data
     ports:

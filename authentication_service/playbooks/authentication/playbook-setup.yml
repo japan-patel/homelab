@@ -6,6 +6,6 @@
   roles:
   #- docker
   #- authDB
-  #- lldap
-  - authelia
+  - lldap
+  #- authelia
   #- caddy
