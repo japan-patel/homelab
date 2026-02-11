@@ -16,7 +16,7 @@ services:
       - LLDAP_KEY_SEED_FILE=/run/secrets/ldap_key_seed
       - LLDAP_DATABASE_URL_FILE=/run/secrets/ldap_database_url
     volumes:
-      - /home/homelab/lldap/data:/data
+      - ${HOME}/lldap/data:/data
     ports:
       - 17170:17170
     networks:

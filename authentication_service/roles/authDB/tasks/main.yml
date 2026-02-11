@@ -5,33 +5,28 @@
     state: present
   loop: "{{ postgres | dict2items }}"
 
-- name: Create folder for backup for postgres db
-  ansible.builtin.file:
-    path: "/home/homelab/postgres/{{ item }}"
-    recurse: true
-    state: directory
-    owner: homelab
-    mode: '755'
-  loop:
-  - data
-  - init
-
 - name: copy docker compose file to auth server/VM
   ansible.builtin.copy:
-    src: /home/homelab/homelab/authentication_service/roles/authDB/files/docker-compose.yml
-    dest: /home/homelab/postgres/
+    src: "{{role_path}}/files/docker-compose.yml"
+    dest: "{{ansible_env.HOME}}/postgres/"
     owner: homelab
     mode: '655'
 
-- name: copy sql .sh and .sql files to auth server/VM
+- name: copy 00-entrypoint.sh to auth server/VM
   ansible.builtin.copy:
-    src: "/home/homelab/homelab/authentication_service/roles/authDB/files/00-entrypoint.sh"
-    dest: /home/homelab/postgres/init/
+    src: "{{role_path}}/files/00-entrypoint.sh"
+    dest: "{{ansible_env.HOME}}/postgres/init/"
     owner: homelab
     mode: '755'
+
+- name: create docker volume for postgres data
+  community.docker.docker_volume:
+    name: pgdata
+    state: present
+    recreate: "never"
 
 - name: Run docker swarm stack of postgres
   community.docker.docker_stack:
     name: authDB
     state: present
-    compose: /home/homelab/postgres/docker-compose.yml
+    compose: "{{ansible_env.HOME}}/postgres/docker-compose.yml"

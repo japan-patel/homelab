@@ -1,5 +1,5 @@
 log:
-  level: 'debug'
+  level: 'info'
   format: 'text'
   file_path: '/config/log.txt'
   keep_stdout: false
@@ -60,6 +60,9 @@ session:
   - name: 'authelia_session'
     domain: 'home.com'
     authelia_url: 'https://auth.home.com'
+    inactivity: '2m'
+    expiration: '1h'
+    remember_me: '1d'
   ## The secret to encrypt the session data. This is only used with Redis / Redis Sentinel.
   ## Secret can also be set using a secret: https://www.authelia.com/c/secrets
   #secret: 'insecure_session_secret'

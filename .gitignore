@@ -6,3 +6,4 @@ ansible.log
 
 ##Ignore hosts and vault file
 ./authentication_service/inventory/*
+./roles/authelia/files/config/certs/

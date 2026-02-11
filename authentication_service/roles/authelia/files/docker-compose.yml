@@ -12,7 +12,7 @@ services:
        AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD_FILE: '/run/secrets/authelia_ldap_password'
        AUTHELIA_STORAGE_POSTGRES_PASSWORD_FILE: '/run/secrets/authelia_db_password'
     volumes:
-      - /home/homelab/authelia/config:/config
+      - ${HOME}/authelia/config:/config
     networks: 
       - auth
   
