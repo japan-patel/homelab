@@ -16,11 +16,21 @@ services:
       - LLDAP_KEY_SEED_FILE=/run/secrets/ldap_key_seed
       - LLDAP_DATABASE_URL_FILE=/run/secrets/ldap_database_url
     volumes:
-      - ${HOME}/lldap/data:/data
+      - ${HOME}/auth/lldap/data:/data
     ports:
       - 17170:17170
     networks:
       - auth
+    deploy:  
+      labels:
+        - homepage.group=Admin
+        - homepage.name=LLDAP
+        - homepage.href=https://lldap.home.com   #must be update to match your domain
+        - homepage.showStats=true
+      placement:
+          constraints:
+          - node.role == manager
+       
 
 networks:
   auth:

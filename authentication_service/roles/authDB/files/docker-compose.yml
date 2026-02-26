@@ -3,7 +3,7 @@ services:
     image: postgres:alpine
     volumes:
       - pgdata:/var/lib/postgresql/18/docker
-      - ${HOME}/postgres/init:/docker-entrypoint-initdb.d
+      - ${HOME}/auth/postgres/init/00-entrypoint.sh:/docker-entrypoint-initdb.d/          #uncomment if deploying first time with fresh data
     secrets:
       - authelia_db_password
       - lldap_db_password
@@ -12,6 +12,14 @@ services:
       - auth
     environment:
        POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    deploy:  
+      labels:
+        - homepage.group=Admin
+        - homepage.name=authDB
+        - homepage.showStats=true
+      placement:
+          constraints:
+          - node.role == manager
 
 networks:
   auth:

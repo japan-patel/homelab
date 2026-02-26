@@ -25,9 +25,13 @@ auth.home.com {
         }
 }
 
-#adguard with authelia frontend
-
-adguard.home.com {
+#update FQDN
+homepage.home.com {
         import authelia
-        reverse_proxy 192.168.2.201:3000
+        reverse_proxy homepage:3000
+}
+
+#update FQDN
+actual.home.com {
+        reverse_proxy actualBudget:5006
 }

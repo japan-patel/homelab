@@ -12,9 +12,18 @@ services:
        AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD_FILE: '/run/secrets/authelia_ldap_password'
        AUTHELIA_STORAGE_POSTGRES_PASSWORD_FILE: '/run/secrets/authelia_db_password'
     volumes:
-      - ${HOME}/authelia/config:/config
+      - ${HOME}/auth/authelia/config:/config
     networks: 
       - auth
+    deploy:  
+      labels:
+        - homepage.group=Admin
+        - homepage.name=Authelia
+        - homepage.showStats=true
+        - homepage.icon=authelia.svg
+      placement:
+          constraints:
+          - node.role == manager
   
 secrets:
   identity_validation_jwt_secret:

@@ -9,6 +9,15 @@ services:
     volumes:
       - ./caddy_config:/etc/caddy
       - caddy_data:/data
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+      labels:
+        - homepage.group=Admin
+        - homepage.name=Caddy
+        - homepage.showStats=false
+        - homepage.icon=caddy.svg
 
 networks:
   auth:

@@ -33,7 +33,7 @@ authentication_backend:
     address: 'ldap://lldap:3890'
     implementation: 'lldap'
     base_dn: 'dc=home,dc=com'
-    user: 'uid=authelia_admin,ou=people,dc=home,dc=com'
+    user: 'uid=authelia_admin,ou=people,dc=home,dc=com'     #update dc and uid if you are not using default in vault.yml
     additional_users_dn: 'ou=people'
     users_filter: '(&(|({username_attribute}={input})({mail_attribute}={input}))(objectClass=person))'
     additional_groups_dn: 'ou=groups'
@@ -58,8 +58,8 @@ storage:
 session:
   cookies:
   - name: 'authelia_session'
-    domain: 'home.com'
-    authelia_url: 'https://auth.home.com'
+    domain: 'home.com'                              #update with your domain
+    authelia_url: 'https://auth.home.com'           #update with your domain        
     inactivity: '2m'
     expiration: '1h'
     remember_me: '1d'

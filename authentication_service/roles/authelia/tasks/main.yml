@@ -8,7 +8,7 @@
 - name: copy files to auth server/VM
   ansible.builtin.copy:
     src: "{{role_path}}/files/{{ item }}"
-    dest: "{{ansible_env.HOME}}/authelia/"
+    dest: "{{ansible_env.HOME}}/auth/authelia/"
     owner: homelab
     mode: '655'
   loop:
@@ -17,6 +17,6 @@
 
 - name: Run docker swarm stack of authelia
   community.docker.docker_stack:
-    name: authelia
+    name: auth
     state: present
-    compose: "{{ ansible_env.HOME }}/authelia/docker-compose.yml"
+    compose: "{{ ansible_env.HOME }}/auth/authelia/docker-compose.yml"

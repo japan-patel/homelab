@@ -1,0 +1,6 @@
+- name: playbook to deploy actual stack
+  hosts: 
+    - swarm_managers
+    - swarm_workers
+  roles:
+  - actual_budget

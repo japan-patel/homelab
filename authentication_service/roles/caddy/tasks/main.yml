@@ -1,8 +1,8 @@
 - name: copy caddy configs and docker compose
   ansible.builtin.copy:
     src: "{{ role_path }}/files/{{ item }}"
-    dest: '{{ ansible_env.HOME }}/caddy/'
-    owner: homelab
+    dest: "{{ ansible_env.HOME }}/auth/caddy/"
+    owner: "{{ docker_user }}"
     mode: '655'
   loop:
   - caddy_config
@@ -12,10 +12,9 @@
   community.docker.docker_volume:
     name: caddy_data
     state: present
-    recreate: "never"
 
 - name: run docker stack
   community.docker.docker_stack:
-    name: caddy
+    name: auth
     state: present
-    compose: "{{ ansible_env.HOME }}/caddy/docker-compose.yml"
+    compose: "{{ ansible_env.HOME }}/auth/caddy/docker-compose.yml"

@@ -8,15 +8,15 @@
 - name: copy docker compose file to auth server/VM
   ansible.builtin.copy:
     src: "{{role_path}}/files/docker-compose.yml"
-    dest: "{{ansible_env.HOME}}/postgres/"
-    owner: homelab
+    dest: "{{ansible_env.HOME}}/auth/postgres/"
+    owner: "{{ docker_user }}"
     mode: '655'
 
 - name: copy 00-entrypoint.sh to auth server/VM
   ansible.builtin.copy:
     src: "{{role_path}}/files/00-entrypoint.sh"
-    dest: "{{ansible_env.HOME}}/postgres/init/"
-    owner: homelab
+    dest: "{{ansible_env.HOME}}/auth/postgres/init/"
+    owner: "{{ docker_user }}"
     mode: '755'
 
 - name: create docker volume for postgres data
@@ -27,6 +27,6 @@
 
 - name: Run docker swarm stack of postgres
   community.docker.docker_stack:
-    name: authDB
+    name: auth
     state: present
-    compose: "{{ansible_env.HOME}}/postgres/docker-compose.yml"
+    compose: "{{ansible_env.HOME}}/auth/postgres/docker-compose.yml"

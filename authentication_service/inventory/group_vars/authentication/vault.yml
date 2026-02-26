@@ -1,0 +1,27 @@
+#authelia secrets
+authelia:
+  identity_validation_jwt_secret: ""  #generate secret
+  storage_encrypting_key: "" #generate secret
+
+#postgres secrets
+postgres:
+  authelia_db_username: ""     #setup username for authelia DB
+  authelia_db_password: ""      #generate password for authelia DB
+  authelia_database: "authelia"   #leave it as is or make sure to update entrypoint file for authDB and config file for authelia
+
+  lldap_db_username: ""      #update username in entrypoint file of authDB as well as url in below lldap section
+  lldap_db_password: ""      #generate password
+  lldap_db_database: "lldap"  #keep same or update it with new db name in entrpoint file and below lldap section db url
+  #postgres admin password
+  postgres_password: ""       #setup admin password for postgres
+
+#lldap secrets
+lldap:
+  jwt_secret: ''        #create jwt secret
+  ldap_user_dn: ''      #create username for ldap admin
+  ldap_user_email: ''    #enter email for lldap admin
+  ldap_user_pass: ''      #create password for lldap admin
+  ldap_database_url: ''     #user format postgres://postgres-user:password@authDB/lldap-database
+  ldap_key_seed: ''         #create secret must be >12 character
+  authelia_ldap_user: 'authelia_admin'    #user for authelia for bind access to ldap. Make sure to update authelia config file usr field and also create username and password via lldap ui
+  authelia_ldap_password: ''  #make sure to enter the same password in lldap ui while creating authelia_ldap_user

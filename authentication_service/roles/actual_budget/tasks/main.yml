@@ -1,0 +1,21 @@
+- name: copy docker file to manager node
+  ansible.builtin.copy:
+    src: "{{role_path}}/files/docker-compose.yml"
+    dest: "{{ ansible_env.HOME}}/actual_budget/"
+    owner: "{{ docker_user }}"       
+    mode: "755"
+  when: "'swarm_managers' in group_names"
+
+- name: create docker volume
+  community.docker.docker_volume:
+    name: actualData
+    state: present
+    recreate: "never"
+  when: "'swarm_workers' in group_names"
+
+- name: deploye docker stack actual
+  community.docker.docker_stack:
+    name: actual
+    state: present
+    compose: "{{ ansible_env.HOME}}/actual_budget/docker-compose.yml"
+  when: "'swarm_managers' in group_names"

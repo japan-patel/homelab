@@ -1,0 +1,6 @@
+- name: install docker and prerequisites, init swarm nodes- playbook
+  hosts: production
+  any_errors_fatal: true
+  roles:
+  - docker
+  - docker_swarm

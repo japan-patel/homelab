@@ -1,0 +1,17 @@
+title: My Home apps
+theme: dark #light
+layout:
+  Admin:
+    style: row
+    columns: 4
+    iconsOnly: true
+headerStyle: boxed
+language: en
+target: _blank
+showStats: true
+statusStyle: "dot"
+disableIndexing: true
+docker:
+  my-docker:
+    discovery:
+      enabled: true

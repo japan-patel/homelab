@@ -1,0 +1,30 @@
+services:
+  actualBudget:
+      image: actualbudget/actual-server:sha-c031d9a-alpine
+      volumes:
+        - actualData:/data
+      environment:
+        - ACTUAL_DATA_DIR=/data
+        - ACTUAL_LOGIN_METHOD=header
+        - ACTUAL_LOGIN_METHOD=password
+      networks: 
+      - auth
+      deploy:
+        placement:
+          constraints:
+          - node.role == worker
+        labels:
+        - homepage.group=Apps
+        - homepage.name=Actual Budget
+        - homepage.statusStyle=dot
+        - homepage.href=https://actual.home.com      #must match your domain
+        - homepage.icon=actual-budget.svg
+        - homepage.showStats=false
+
+volumes:
+  actualData:
+    external: true
+
+networks:
+  auth:
+    external: true

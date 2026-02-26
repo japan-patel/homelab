@@ -8,15 +8,15 @@
 - name: copy data folder and docker compose for lldap
   ansible.builtin.copy:
     src: "{{ role_path }}/files/{{ item }}"
-    dest: "{{ ansible_env.HOME }}/lldap/"
-    owner: homelab
-    mode: '655'
+    dest: "{{ ansible_env.HOME }}/auth/lldap/"
+    owner: "{{ docker_user }}"
+    mode: '755'
   loop:
   - docker-compose.yml
   - data
 
 - name: deploy lldap stack
   community.docker.docker_stack:
-    name: lldap
+    name: auth
     state: present
-    compose: "{{ ansible_env.HOME }}/lldap/docker-compose.yml"
+    compose: "{{ ansible_env.HOME }}/auth/lldap/docker-compose.yml"

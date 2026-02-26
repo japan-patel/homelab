@@ -1,0 +1,21 @@
+#docker swarm init and create network for authentication
+- name: docker swarm init for manager node
+  community.docker.docker_swarm:
+    state: present
+  register: result
+  when: "'swarm_manager' in group_names"
+
+- name: create docker network auth
+  community.docker.docker_network:
+    name: auth
+    driver: overlay
+    attachable: true
+    state: present
+  when: "'swarm_manager' in group_names"
+
+- name: create docker swarm workernode
+  community.docker.docker_swarm:
+    state: join
+    join_token: "{{hostvars['swarm_manager']result.swarm_facts.JoinTokens.Worker}}"
+    remote_addrs: "{{ swarmworker.manager_addr }}"
+  when: "'swarm_worker' in group_names"
